@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"
 import { logout } from "../auth"
 import SnakeGame from "../components/SnakeGame"
 import TankWars from "../components/TankWars"
+import GomokuGame from "../components/GomokuGame"
+import { FaRobot, FaGamepad, FaSignOutAlt, FaFireAlt, FaCode, FaLightbulb, FaStar } from "react-icons/fa"
 
 const samplePosts = [
   {
@@ -34,43 +36,90 @@ export default function Home() {
   return (
     <div className="container">
       <header className="header">
-        <div>
-          <h1>🔮 CYBER BLOG 🔮</h1>
+        <div className="header-left">
+          <div className="logo-area">
+            <div className="logo-icon">⚡</div>
+            <div className="logo-text">
+              <h1>🔮 CYBER BLOG 🔮</h1>
+              <p className="tagline">⸻ 赛博朋克游戏博客 ⸻</p>
+            </div>
+          </div>
         </div>
-        <button onClick={handleLogout}>[ 登出 ]</button>
+        <button className="logout-btn" onClick={handleLogout}>
+          <FaSignOutAlt /> 登出
+        </button>
       </header>
 
-      <div className="tabs">
+      <nav className="game-tabs">
         <button
           className={`tab ${selectedGame === "snake" ? "active" : ""}`}
           onClick={() => setSelectedGame("snake")}
         >
-          🐍 贪食蛇
+          <span className="tab-icon">🐍</span>
+          <span>贪食蛇</span>
         </button>
         <button
           className={`tab ${selectedGame === "tank" ? "active" : ""}`}
           onClick={() => setSelectedGame("tank")}
         >
-          🚀 坦克大战
+          <span className="tab-icon">🚀</span>
+          <span>坦克大战</span>
         </button>
-      </div>
+        <button
+          className={`tab ${selectedGame === "gomoku" ? "active" : ""}`}
+          onClick={() => setSelectedGame("gomoku")}
+        >
+          <span className="tab-icon">⚫</span>
+          <span>五子棋</span>
+        </button>
+      </nav>
 
       <main className="main-grid">
-        <section className="game">
-          <h2>▸ {selectedGame === "snake" ? "贪食蛇游戏" : "坦克大战"}</h2>
-          {selectedGame === "snake" ? <SnakeGame /> : <TankWars />}
+        <section className="game-section">
+          <div className="section-header">
+            {selectedGame === "snake" && <><FaFireAlt /> 贪食蛇游戏</>}
+            {selectedGame === "tank" && <><FaRobot /> 坦克大战</>}
+            {selectedGame === "gomoku" && <><FaGamepad /> 五子棋挑战</>}
+          </div>
+          <div className="game-container">
+            {selectedGame === "snake" && <SnakeGame />}
+            {selectedGame === "tank" && <TankWars />}
+            {selectedGame === "gomoku" && <GomokuGame />}
+          </div>
         </section>
 
-        <section className="posts">
-          <h2>▸ 文章列表</h2>
-          {samplePosts.map((p) => (
-            <article key={p.id} className="post">
-              <h3>► {p.title}</h3>
-              <p>{p.body}</p>
-            </article>
-          ))}
+        <section className="posts-section">
+          <div className="section-header">
+            <FaCode /> 精选文章
+          </div>
+          <div className="posts-list">
+            {samplePosts.map((p) => (
+              <article key={p.id} className="post-card">
+                <div className="post-icon">
+                  {p.id === 1 && <span className="icon">✨</span>}
+                  {p.id === 2 && <span className="icon">⚛️</span>}
+                  {p.id === 3 && <span className="icon">🧠</span>}
+                </div>
+                <div className="post-content">
+                  <h3><FaStar className="star-icon" /> {p.title}</h3>
+                  <p>{p.body}</p>
+                  <div className="post-footer">
+                    <span className="post-date">2024年02月09日</span>
+                    <span className="post-read">阅读 →</span>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
         </section>
       </main>
+
+      <footer className="footer">
+        <div className="footer-content">
+          <p><FaLightbulb /> 由 React + Vite 驱动的赛博朋克博客平台</p>
+          <p className="tech-stack">⚙️ Tech Stack: React • Vite • React Router • Canvas API</p>
+        </div>
+      </footer>
     </div>
   )
 }
